@@ -1,103 +1,247 @@
-import Image from "next/image";
+// src/app/page.tsx
+"use client";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import {
+    ResponsiveContainer,
+    LineChart,
+    Line,
+} from "recharts";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+interface ProjectSummary {
+    _id: string;
+    name: string;
+    code: string;
+    budget: number;
+    forecastToDate: number;
+    actualToDate: number;
+    trend: { period: string; diffCost: number }[];
+}
+
+// shape of the project object returned by /api/projects
+interface ProjectFromApi {
+    _id: string;
+    name: string;
+    code: string;
+    budget: number;
+}
+
+// shape of each record returned by /api/monthly-records
+interface MonthlyRecordFromApi {
+    forecastDays: number;
+    actualCost: number;
+    resourceId: string;
+    period: string;
+}
+
+// shape of each resource (we only need the dayRate here)
+interface ResourceRate {
+    _id: string;
+    dayRate: number;
+}
+
+export default function ProjectsDashboard() {
+    const [projects, setProjects] = useState<ProjectSummary[]>([]);
+    const token =
+        typeof window === "undefined"
+            ? ""
+            : localStorage.getItem("token") ?? "";
+
+    useEffect(() => {
+        async function load() {
+            // 1) fetch all projects
+            const pr = await fetch("/api/projects", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            const projList = (await pr.json()) as ProjectFromApi[];
+
+            // 2) for each project, fetch aggregated monthly summary
+            const summaries = await Promise.all(
+                projList.map(async (p) => {
+                    // a) fetch that project’s monthly-records
+                    const mrRes = await fetch(
+                        `/api/monthly-records?projectId=${p._id}`,
+                        { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                    const mr = (await mrRes.json()) as MonthlyRecordFromApi[];
+
+                    // b) fetch that project’s resources so we know dayRate
+                    const rrRes = await fetch(
+                        `/api/resources?projectId=${p._id}`,
+                        { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                    const resList = (await rrRes.json()) as ResourceRate[];
+                    const resourceMap = Object.fromEntries(
+                        resList.map((r) => [r._id, r.dayRate])
+                    );
+
+                    // c) roll up totals and per-period buckets
+                    let forecastCostTotal = 0;
+                    let actualCostTotal = 0;
+                    const byPeriod: Record<
+                        string,
+                        { forecastCost: number; actualCost: number }
+                    > = {};
+
+                    mr.forEach((rec) => {
+                        const days = rec.forecastDays || 0;
+                        const rate = resourceMap[rec.resourceId] ?? 0;
+                        const fc = days * rate;
+                        const ac = rec.actualCost || 0;
+
+                        forecastCostTotal += fc;
+                        actualCostTotal += ac;
+
+                        if (!byPeriod[rec.period]) {
+                            byPeriod[rec.period] = { forecastCost: 0, actualCost: 0 };
+                        }
+                        byPeriod[rec.period].forecastCost += fc;
+                        byPeriod[rec.period].actualCost += ac;
+                    });
+
+                    const trend = Object.entries(byPeriod)
+                        .map(([period, { forecastCost, actualCost }]) => ({
+                            period,
+                            diffCost: actualCost - forecastCost,
+                        }))
+                        .sort((a, b) => a.period.localeCompare(b.period));
+
+                    return {
+                        _id: p._id,
+                        name: p.name,
+                        code: p.code,
+                        budget: p.budget,
+                        forecastToDate: forecastCostTotal,
+                        actualToDate: actualCostTotal,
+                        trend,
+                    } as ProjectSummary;
+                })
+            );
+
+            setProjects(summaries);
+        }
+
+        load();
+    }, [token]);
+
+    return (
+        <main className="p-8 bg-gradient-to-r from-indigo-50 to-purple-50 min-h-screen">
+            <h1 className="text-4xl font-bold mb-8 text-gray-800">
+                Projects Overview
+            </h1>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {projects.map((proj) => {
+                    const { budget, forecastToDate: fcTotal, actualToDate: acTotal } =
+                        proj;
+
+                    // calculate % differences
+                    const pctBudgetDiff =
+                        budget > 0 ? (acTotal / budget - 1) * 100 : 0;
+                    const pctForecastDiff =
+                        fcTotal > 0 ? (acTotal / fcTotal - 1) * 100 : 0;
+                    const barFill = Math.min(100, (acTotal / budget) * 100);
+
+                    return (
+                        <Link
+                            key={proj._id}
+                            href={`/projects/${proj._id}`}
+                            className="block bg-white rounded-lg shadow hover:shadow-lg transition p-6 relative"
+                        >
+                            {/* Top usage bar */}
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 overflow-hidden rounded-t-lg">
+                                <div
+                                    className={`h-full ${
+                                        pctBudgetDiff > 0 ? "bg-red-500" : "bg-primary-600"
+                                    }`}
+                                    style={{ width: `${barFill}%` }}
+                                />
+                            </div>
+
+                            <h2 className="text-lg font-semibold text-neutral-900">
+                                {proj.name}{" "}
+                                <span className="text-sm text-gray-500">({proj.code})</span>
+                            </h2>
+
+                            {/* Budget / Forecast / Actual */}
+                            <div className="mt-4 space-y-1 text-sm text-gray-700">
+                                <p>
+                                    <strong>Budget:</strong> £{budget.toLocaleString()}
+                                </p>
+                                <p>
+                                    <strong>Forecast:</strong> £{fcTotal.toLocaleString()}{" "}
+                                    <span
+                                        className={
+                                            pctForecastDiff > 0 ? "text-red-600" : "text-gray-700"
+                                        }
+                                    >
+                                        (
+                                            {pctForecastDiff >= 0 ? "+" : ""}
+                                            {pctForecastDiff.toFixed(1)}%
+                                        )
+                                    </span>
+                                </p>
+                                <p>
+                                    <strong>Actual:</strong> £{acTotal.toLocaleString()}{" "}
+                                    <span
+                                        className={
+                                            pctBudgetDiff > 0 ? "text-red-600" : "text-gray-700"
+                                        }
+                                    >
+                                        (
+                                            {pctBudgetDiff >= 0 ? "+" : ""}
+                                            {pctBudgetDiff.toFixed(1)}%
+                                        )
+                                    </span>
+                                </p>
+                            </div>
+
+                            {/* Δ Badges */}
+                            <div className="mt-4 flex space-x-2">
+                                <span
+                                    className={`inline-block ${
+                                        pctForecastDiff > 0
+                                            ? "bg-yellow-100 text-yellow-800"
+                                            : "bg-green-100 text-green-800"
+                                    } text-xs font-medium px-2 py-0.5 rounded`}
+                                >
+                                  Forecast Δ{" "}
+                                    {pctForecastDiff >= 0 ? "+" : ""}
+                                    {pctForecastDiff.toFixed(1)}%
+                                </span>
+                                <span
+                                    className={`inline-block ${
+                                        pctBudgetDiff > 0
+                                            ? "bg-red-100 text-red-800"
+                                            : "bg-green-100 text-green-800"
+                                    } text-xs font-medium px-2 py-0.5 rounded`}
+                                >
+                                    Budget Δ{" "}
+                                    {pctBudgetDiff >= 0 ? "+" : ""}
+                                    {pctBudgetDiff.toFixed(1)}%
+                                </span>
+                            </div>
+
+                            {/* Sparkline */}
+                            {proj.trend.length > 1 && (
+                                <div className="mt-4 h-16">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <LineChart data={proj.trend}>
+                                            <Line
+                                                type="monotone"
+                                                dataKey="diffCost"
+                                                stroke="#4f46e5"
+                                                strokeWidth={2}
+                                                dot={false}
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            )}
+                        </Link>
+                    );
+                })}
+            </div>
+        </main>
+    );
 }

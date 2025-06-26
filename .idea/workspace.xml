@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="be34ce41-4155-4307-8289-93f6e6b0aba6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/postcss.config.cjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/allocations/[id]/edit/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/allocations/[id]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/allocations/new/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/allocations/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/cost-items/[id]/edit/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/cost-items/[id]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/cost-items/new/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/cost-items/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/features/[id]/edit/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/features/[id]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/features/new/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/features/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/login/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/[id]/calendar/ResourceCalendar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/[id]/calendar/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/[id]/edit/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/[id]/features-board/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/[id]/monthly/MonthlyClient.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/[id]/monthly/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/[id]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/new/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/projects/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/register/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/resources/[id]/edit/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/resources/[id]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/resources/new/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/resources/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Sidebar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useAuthGuard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/mongodb.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Absence.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Allocation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Company.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/CostItem.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Feature.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/MonthlyRecord.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Project.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Resource.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/Sprint.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/User.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/absences/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/absences/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/allocations/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/allocations/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/auth/login.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/auth/register.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/cost-items/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/cost-items/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/features/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/features/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/monthly-records/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/monthly-records/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/projects/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/projects/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/resources/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/resources/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/sprints/[id].ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/api/sprints/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tailwind.config.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postcss.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2yzo9hhG3sokY8Lj1GUwvCaDNtH" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
+    "last_opened_file_path": "C:/Users/Dean/Projects/promethos/src/app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Dean\\Projects\\promethos\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Dean\Projects\promethos\src\app" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Dean\Projects\promethos\src\app\projects\[id]" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.Next.js: server-side">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
+    <configuration name="Next.js: server-side" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-WS-251.26927.40" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="be34ce41-4155-4307-8289-93f6e6b0aba6" name="Changes" comment="" />
+      <created>1750846613053</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750846613053</updated>
+      <workItem from="1750846614126" duration="279000" />
+      <workItem from="1750846922021" duration="50085000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

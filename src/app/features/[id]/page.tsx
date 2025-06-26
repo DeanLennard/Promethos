@@ -1,0 +1,91 @@
+// src/app/features/[id]/page.tsx
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
+
+interface Feature {
+    _id: string;
+    projectId: string;
+    title: string;
+    description: string;
+    storyPoints: number;
+    completedPoints: number;
+    status: string;
+}
+
+interface Project { _id: string; name: string; code: string; }
+
+export default function FeatureViewPage() {
+    useAuthGuard();
+    const { id } = useParams();
+    const [feat, setFeat] = useState<Feature | null>(null);
+    const [project, setProject] = useState<Project | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        fetch(`/api/features/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then((r) => r.json())
+            .then(async (data: Feature) => {
+                setFeat(data);
+                const p = await fetch(`/api/projects/${data.projectId}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                }).then((r) => r.json());
+                setProject(p);
+            })
+            .finally(() => setLoading(false));
+    }, [id]);
+
+    if (loading) return <p className="p-8">Loading feature…</p>;
+    if (!feat) return <p className="p-8">Feature not found</p>;
+
+    return (
+        <div className="p-8">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-semibold">{feat.title}</h1>
+                <div>
+                    <Link
+                        href={`/features/${id}/edit`}
+                        className="px-4 py-2 bg-accent-600 text-white rounded hover:bg-accent-700 mr-2"
+                    >
+                        Edit
+                    </Link>
+                    <Link
+                        href="/features"
+                        className="px-4 py-2 bg-neutral-light text-white rounded hover:bg-neutral-dark"
+                    >
+                        Back
+                    </Link>
+                </div>
+            </div>
+            <div className="bg-white shadow-card rounded p-6 space-y-4">
+                <p>
+                    <strong>Project:</strong>{" "}
+                    {project
+                        ? `${project.name} (${project.code})`
+                        : feat.projectId}
+                </p>
+                <p>
+                    <strong>Description:</strong> {feat.description}
+                </p>
+                <p>
+                    <strong>Story Points:</strong> {feat.storyPoints}
+                </p>
+                <p>
+                    <strong>Completed Points:</strong> {feat.completedPoints}
+                </p>
+                <p>
+                    <strong>Status:</strong>{" "}
+                    {feat.status.replace("-", " ").replace(/\b\w/g, (c) =>
+                        c.toUpperCase()
+                    )}
+                </p>
+            </div>
+        </div>
+    );
+}
